@@ -6,9 +6,9 @@ $(function() {
 
     $('input[type=file]').change(function() {
 
-        var subscriptionKey = "2859b5e18586486f948c84afadeedcad
+        var subscriptionKey = "2859b5e18586486f948c84afadeedcad";
 
-        var uriBase = "https://faceaaaaa.cognitiveservices.azure.com/
+        var uriBase = "https://faceaaaaa.cognitiveservices.azure.com/";
         var params = {
             "returnFaceId": "true",
             "returnFaceLandmarks": "false",
