@@ -1,0 +1,268 @@
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/110/three.min.js"></script>
+    <script src="OrbitControls.js"></script>
+    <script src="VolumetricFire.js"></script>
+
+    <script>
+      // ページの読み込みを待つ
+      window.addEventListener('load', init);
+
+      function init() {
+        // サイズを指定
+        const width = 960;
+        const height = 540;
+
+        var clock = new THREE.Clock();
+
+        // レンダラーを作成
+        const renderer = new THREE.WebGLRenderer({
+          canvas: document.querySelector('#myCanvas')
+        });
+        renderer.setSize(width, height);
+        // 光源が関係ないので
+        //renderer.setClearColor(0xf9f9f9, 1.0);
+
+        // シーンを作成
+        const scene = new THREE.Scene();
+        // シーン全体のフォグ
+        scene.fog = new THREE.Fog(0x000000, 800, 2000);
+
+        // カメラを作成
+        const camera = new THREE.PerspectiveCamera(45, width / height);
+        // カメラの初期座標を設定
+        camera.position.set(0, 0, 1000);
+
+        // カメラコントローラーを作成
+        const controls = new THREE.OrbitControls(camera);
+        controls.autoRotate = true;
+
+        // helper
+        const gridHelper = new THREE.GridHelper(1000,20); // size, step
+        scene.add(gridHelper);
+        const axisHelper = new THREE.AxisHelper(1000); //軸の長さ　X：赤、Y：緑、z：青
+        scene.add(axisHelper);
+
+        // マテリアルを作成する
+        const material = new THREE.SpriteMaterial({
+          map: new THREE.TextureLoader().load('img/star3.png')
+        });
+        // フォグ（霞）を有効にする
+        material.fog = true;
+
+        // ビルボードを作成
+
+        for (let i = 0; i < 200; i++) {
+          const sprite = new THREE.Sprite(material);
+          // ランダムな座標に配置
+          sprite.position.x = 1000 * (Math.random() - 0.5);
+          sprite.position.y = 300 * Math.random() - 150;
+          sprite.position.z = 1000 * (Math.random() - 0.5);
+          // 必要に応じてスケールを調整
+          sprite.scale.set(50, 50, 50);
+
+          scene.add(sprite);
+        }
+
+        //地球
+        const sphereGeometry = new THREE.SphereGeometry( 50, 32, 32 );
+        //半径、垂直方向の分割数、水平方向の分割数
+        const textureLoader = new THREE.TextureLoader();
+        const erathtexture = textureLoader.load("img/tikyu.jpg");
+        const erathtexturebump = textureLoader.load("img/tikyu3.jpg");
+        const sphereMaterial = new THREE. MeshPhongMaterial();
+        sphereMaterial.map = erathtexture;
+        sphereMaterial.bumpMap = erathtexturebump;
+        sphereMaterial.bumpscale = 2;
+        const sphere = new THREE.Mesh( sphereGeometry, sphereMaterial );
+        //sphere.position.x = 200;
+        sphere.position.z = 230;
+
+
+        //太陽
+        const sphereGeometry2 = new THREE.SphereGeometry( 100, 32, 32 );
+        const taiyoutexture = textureLoader.load("img/taiyou.jpg");
+        const taiyoutexturebump = textureLoader.load("img/taiyou.jpg");
+        const sphereMaterial2 = new THREE. MeshPhongMaterial();
+        sphereMaterial2.map = taiyoutexture;
+        sphereMaterial2.bumpMap = taiyoutexturebump;
+        sphereMaterial2.bumpscale = 2;
+        const sphere2 = new THREE.Mesh( sphereGeometry2, sphereMaterial2 );
+
+        //水星
+        const sphereGeometry3 = new THREE.SphereGeometry( 30, 32, 32 );
+        const suiseitexture = textureLoader.load("img/suisei.jpg");
+        const suiseitexturebump = textureLoader.load("img/suisei.jpg");
+        const sphereMaterial3 = new THREE. MeshPhongMaterial();
+        sphereMaterial3.map = suiseitexture;
+        sphereMaterial3.bumpMap = suiseitexturebump;
+        sphereMaterial3.bumpscale = 2;
+        const sphere3 = new THREE.Mesh( sphereGeometry3, sphereMaterial3 );
+        sphere3.position.x = 150;
+        sphere3.position.z = 80;
+
+        //金星
+        const sphereGeometry4 = new THREE.SphereGeometry( 40, 32, 32 );
+        const kinnseitexture = textureLoader.load("img/kinnsei.jpg");
+        const kinnseitexturebump = textureLoader.load("img/kinnsei.jpg");
+        const sphereMaterial4 = new THREE. MeshPhongMaterial();
+        sphereMaterial4.map = kinnseitexture;
+        sphereMaterial4.bumpMap = kinnseitexturebump;
+        sphereMaterial4.bumpscale = 2;
+        const sphere4 = new THREE.Mesh( sphereGeometry4, sphereMaterial4 );
+        sphere4.position.x = -170;
+        sphere4.position.z = -120;
+
+        //火星
+        const sphereGeometry5 = new THREE.SphereGeometry( 35, 32, 32 );
+        const kaseitexture = textureLoader.load("img/kasei.jpg");
+        const kaseitexturebump = textureLoader.load("img/kasei.jpg");
+        const sphereMaterial5 = new THREE. MeshPhongMaterial();
+        sphereMaterial5.map = kaseitexture;
+        sphereMaterial5.bumpMap = kaseitexturebump;
+        sphereMaterial5.bumpscale = 2;
+        const sphere5= new THREE.Mesh( sphereGeometry5, sphereMaterial5 );
+        sphere5.position.x = -300;
+        sphere5.position.z = 50;
+
+        //木星
+        const sphereGeometry6 = new THREE.SphereGeometry( 70, 32, 32 );
+        const mokuseitexture = textureLoader.load("img/mokusei.jpg");
+        const mokuseitexturebump = textureLoader.load("img/mokusei.jpg");
+        const sphereMaterial6 = new THREE. MeshPhongMaterial();
+        sphereMaterial6.map = mokuseitexture;
+        sphereMaterial6.bumpMap = mokuseitexturebump;
+        sphereMaterial6.bumpscale = 2;
+        const sphere6= new THREE.Mesh( sphereGeometry6, sphereMaterial6 );
+        sphere6.position.x = 400;
+        sphere6.position.z = 250;
+
+        //土星
+        const sphereGeometry7 = new THREE.SphereGeometry( 70, 32, 32 );
+        const doseitexture = textureLoader.load("img/dosei.jpg");
+        const doseitexturebump = textureLoader.load("img/dosei.jpg");
+        const sphereMaterial7 = new THREE. MeshPhongMaterial();
+        sphereMaterial7.map = doseitexture;
+        sphereMaterial7.bumpMap = doseitexturebump;
+        sphereMaterial7.bumpscale = 2;
+        const sphere7= new THREE.Mesh( sphereGeometry7, sphereMaterial7 );
+        sphere7.position.x = -400;
+        sphere7.position.z = -200;
+        sphere7.rotation.x = 45 * Math.PI / 180;
+
+        //土星　輪
+        const sphereGeometry8 = new THREE.TorusGeometry( 90, 8, 2,100 );
+        const doseiwatexture = textureLoader.load("img/kinnsei.jpg");
+        const doseiwatexturebump = textureLoader.load("img/kinnsei.jpg");
+        const sphereMaterial8 = new THREE. MeshPhongMaterial();
+        sphereMaterial8.map = doseiwatexture;
+        sphereMaterial8.bumpMap = doseiwatexturebump;
+        sphereMaterial8.bumpscale = 2;
+        const sphere8= new THREE.Mesh( sphereGeometry8, sphereMaterial8 );
+        sphere8.position.x = -400;
+        sphere8.position.z = -200;
+        sphere8.rotation.x = 135 * Math.PI / 180; // 90度回転
+
+        //天王星
+        const sphereGeometry9 = new THREE.SphereGeometry( 65, 32, 32 );
+        const tennnouseitexture = textureLoader.load("img/tennnouseiwa.jpg");
+        const tennnouseitexturebump = textureLoader.load("img/tennnouseiwa.jpg");
+        const sphereMaterial9 = new THREE. MeshPhongMaterial();
+        sphereMaterial9.map = tennnouseitexture;
+        sphereMaterial9.bumpMap = tennnouseitexturebump;
+        sphereMaterial9.bumpscale = 2;
+        const sphere9= new THREE.Mesh( sphereGeometry9, sphereMaterial9 );
+        sphere9.position.x = 400;
+        sphere9.position.z = -300;
+        sphere9.rotation.x = 90 * Math.PI / 180;
+
+        //天王星　輪
+        const sphereGeometry10 = new THREE.TorusGeometry( 100, 6, 2,100 );
+        const tennnouseiwatexture = textureLoader.load("img/kaiousei.jpg");
+        const tennnouseiwatexturebump = textureLoader.load("img/kaiousei.jpg");
+        const sphereMaterial10 = new THREE. MeshPhongMaterial();
+        sphereMaterial10.map = tennnouseiwatexture;
+        sphereMaterial10.bumpMap = tennnouseiwatexturebump;
+        sphereMaterial10.bumpscale = 2;
+        const sphere10= new THREE.Mesh( sphereGeometry10, sphereMaterial10 );
+        sphere10.position.x = 400;
+        sphere10.position.z = -300;
+
+        //海王星
+        const sphereGeometry11 = new THREE.SphereGeometry( 65, 32, 32 );
+        const kaiouseitexture = textureLoader.load("img/kaiousei.jpg");
+        const kaiouseitexturebump = textureLoader.load("img/kaiousei.jpg");
+        const sphereMaterial11 = new THREE. MeshPhongMaterial();
+        sphereMaterial11.map = kaiouseitexture;
+        sphereMaterial11.bumpMap = kaiouseitexturebump;
+        sphereMaterial11.bumpscale = 2;
+        const sphere11= new THREE.Mesh( sphereGeometry11, sphereMaterial11 );
+        sphere11.position.x = -400;
+        sphere11.position.z = 300;
+
+
+
+
+
+        scene.add( sphere );
+        scene.add( sphere2 );
+        scene.add( sphere3 );
+        scene.add( sphere4 );
+        scene.add( sphere5 );
+        scene.add( sphere6 );
+        scene.add( sphere7 );
+        scene.add( sphere8 );
+        scene.add( sphere9 );
+        scene.add( sphere10 );
+        scene.add( sphere11 );
+
+
+        //　炎の作成
+
+        // set path to texture images
+        // either relative or absolute path
+        VolumetricFire.texturePath = './textures/';
+        var fireWidth  = 220;
+        var fireHeight = 235;
+        var fireDepth  = 220;
+        var sliceSpacing = 10;
+
+        var fire = new VolumetricFire(
+          fireWidth,
+          fireHeight,
+          fireDepth,
+          sliceSpacing,
+          camera
+        );
+        scene.add( fire.mesh );
+
+        // you can set position, rotation and scale
+        // fire.mesh accepts THREE.mesh features
+        fire.mesh.position.set( 0, 75,0);
+
+
+        //光源はspriteのみならば不要！
+        // 光源（環境光）
+        const ambientLight = new THREE.AmbientLight(0xffffff, 1.0);
+        scene.add(ambientLight);
+
+        tick();
+
+        // 毎フレーム時に実行されるループイベントです
+        function tick() {
+          // レンダリング
+          requestAnimationFrame(tick);
+
+          var elapsed = clock.getElapsedTime();
+
+          renderer.render(scene, camera);
+          fire.update( elapsed );
+        }
+      }
+    </script>
+  </head>
+  <body>
+    <canvas id="myCanvas"></canvas>
+  </body>
+</html>
