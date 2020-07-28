@@ -39,6 +39,7 @@
         controls.autoRotate = true;
 
 
+
         // マテリアルを作成する
         const material = new THREE.SpriteMaterial({
           map: new THREE.TextureLoader().load('img/star3.png')
@@ -60,6 +61,9 @@
           scene.add(sprite);
         }
 
+        const group = new THREE.Group();
+        scene.add(group);
+
         //地球
         const sphereGeometry = new THREE.SphereGeometry( 50, 32, 32 );
         //半径、垂直方向の分割数、水平方向の分割数
@@ -73,7 +77,6 @@
         const sphere = new THREE.Mesh( sphereGeometry, sphereMaterial );
         //sphere.position.x = 200;
         sphere.position.z = 230;
-
 
         //太陽
         const sphereGeometry2 = new THREE.SphereGeometry( 100, 32, 32 );
@@ -97,6 +100,8 @@
         sphere3.position.x = 150;
         sphere3.position.z = 80;
 
+
+
         //金星
         const sphereGeometry4 = new THREE.SphereGeometry( 40, 32, 32 );
         const kinnseitexture = textureLoader.load("img/kinnsei.jpg");
@@ -108,6 +113,7 @@
         const sphere4 = new THREE.Mesh( sphereGeometry4, sphereMaterial4 );
         sphere4.position.x = -170;
         sphere4.position.z = -120;
+
 
         //火星
         const sphereGeometry5 = new THREE.SphereGeometry( 35, 32, 32 );
@@ -121,6 +127,7 @@
         sphere5.position.x = -300;
         sphere5.position.z = 50;
 
+
         //木星
         const sphereGeometry6 = new THREE.SphereGeometry( 70, 32, 32 );
         const mokuseitexture = textureLoader.load("img/mokusei.jpg");
@@ -132,6 +139,7 @@
         const sphere6= new THREE.Mesh( sphereGeometry6, sphereMaterial6 );
         sphere6.position.x = 400;
         sphere6.position.z = 250;
+
 
         //土星
         const sphereGeometry7 = new THREE.SphereGeometry( 70, 32, 32 );
@@ -200,17 +208,17 @@
 
 
 
-        scene.add( sphere );
+        group.add( sphere );
         scene.add( sphere2 );
-        scene.add( sphere3 );
-        scene.add( sphere4 );
-        scene.add( sphere5 );
-        scene.add( sphere6 );
-        scene.add( sphere7 );
-        scene.add( sphere8 );
-        scene.add( sphere9 );
-        scene.add( sphere10 );
-        scene.add( sphere11 );
+        group.add( sphere3 );
+        group.add( sphere4 );
+        group.add( sphere5 );
+        group.add( sphere6 );
+        group.add( sphere7 );
+        group.add( sphere8 );
+        group.add( sphere9 );
+        group.add( sphere10 );
+        group.add( sphere11 );
 
 
         //　炎の作成
@@ -250,6 +258,15 @@
           requestAnimationFrame(tick);
 
           var elapsed = clock.getElapsedTime();
+          group.rotateY(0.01);
+          sphere.rotateY(0.01)
+          sphere3.rotateY(0.01)
+          sphere4.rotateY(0.01)
+          sphere5.rotateY(0.01)
+          sphere6.rotateY(0.01)
+          sphere7.rotateY(0.01)
+          sphere9.rotateY(0.01)
+          sphere11.rotateY(0.01)
 
           renderer.render(scene, camera);
           fire.update( elapsed );
